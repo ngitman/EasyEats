@@ -21,6 +21,7 @@ const userNotes = createCognitiveStep(() => {
           * Keep descriptions as bullet points
           * Keep relevant bullet points from before
           * Use abbreviated language to keep the notes short
+          * Write the culinary preferences of the user
           * Do not write any notes about ${name}
 
           Please reply with the updated notes on the user:

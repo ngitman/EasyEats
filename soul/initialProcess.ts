@@ -11,9 +11,9 @@ const initialProcess: MentalProcess = async ({ workingMemory }) => {
   let stream;
 
   const [code, info, question, chat] = [
-    "They explicitly asked CodeMonkey to write code",
-    "They provided information that CodeMonkey requested to start coding",
-    "They asked a new technical question",
+    "They explicitly asked EasyEats for a recommendation about a specific restaurant base in its cuisine",
+    "They provided information about the user's prefered cuisine",
+    "They want a detailed recommendation about a specific restaurant",
     "They're continuing the conversation or just chit-chatting",
   ];
   const [, intent] = await decision(
@@ -30,7 +30,7 @@ const initialProcess: MentalProcess = async ({ workingMemory }) => {
   if (intent === code || intent === info) {
     const [, canOutline] = await mentalQuery(
       memory,
-      "CodeMonkey has enough information to write an outline of the code.",
+      "EasyEats has enough information to give a specific restaurant recommendation.",
       {
         model: "quality",
       }
@@ -48,7 +48,7 @@ const initialProcess: MentalProcess = async ({ workingMemory }) => {
     });
   }
 
-  [memory, stream] = await externalDialog(memory, "CodeMonkey answers the user's message.", {
+  [memory, stream] = await externalDialog(memory, "EasyEats answers the user's message.", {
     stream: true,
     model: "quality",
   });
@@ -64,15 +64,12 @@ const withCodeOutline = async ({ memory }: { memory: WorkingMemory }) => {
 
   let stream;
 
-  log("Outlining coding approach");
+  log("Outlining recommendation approach");
   [memory, stream] = await externalDialog(
     memory,
     indentNicely`
-      CodeMonkey does NOT WRITE CODE yet. He just:
-      1. outlines his coding approach in a concise step-by-step list, using a few words for each step
-      2. either:
-        2.1. makes a list of all the information missing, if any
-        2.2. OR if he has all the information he needs, says something like 'let's start coding!'
+      EasyEats does not give a recommendation yet. He just:
+      1. narrows down the options of restaurants to the user's prefered cuisine and neighborhood.
     `,
     {
       model: "quality",
@@ -85,7 +82,7 @@ const withCodeOutline = async ({ memory }: { memory: WorkingMemory }) => {
 
   const [, isInformationMissing] = await mentalQuery(
     memory,
-    "CodeMonkey needs more information before he can start coding.",
+    "EasyEats needs more information before he can give a recommendation.",
     {
       model: "quality",
     }
@@ -104,7 +101,7 @@ async function withMoreInformationRequest({ memory }: { memory: WorkingMemory })
   let stream;
 
   log("Asking for more information");
-  [memory, stream] = await externalDialog(memory, "CodeMonkey asks the user for more information.", {
+  [memory, stream] = await externalDialog(memory, "EasyEats asks the user for more information.", {
     model: "quality",
     stream: true,
   });
@@ -118,10 +115,10 @@ async function withCodeWriting({ memory }: { memory: WorkingMemory }) {
 
   let stream;
 
-  log("Writing the code based on all the available information");
+  log("Giving the best recommendations based on all the available information");
   [memory, stream] = await externalDialog(
     memory,
-    "CodeMonkey writes the code based on all the available information, enclosing code in ```",
+    "EasyEats enlist the best three restaurants from the list of options, and recommends the best one it can think of to the user",
     {
       model: "quality",
       stream: true,

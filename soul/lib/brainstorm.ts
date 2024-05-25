@@ -2,7 +2,7 @@ import { createCognitiveStep, WorkingMemory, ChatMessageRoleEnum, indentNicely, 
 
 const brainstorm = createCognitiveStep((description: string) => {
   const params = z.object({
-    newIdeas: z.array(z.string()).describe(`The new brainstormed ideas.`)
+    newIdeas: z.array(z.string()).describe(`The new brainstormed options.`)
   });
 
   return {
@@ -11,12 +11,12 @@ const brainstorm = createCognitiveStep((description: string) => {
         role: ChatMessageRoleEnum.System,
         name: name,
         content: indentNicely`
-          ${name} is brainstorming new ideas.
+          ${name} is brainstorming and reviewing the options.
 
           ## Idea Description
           ${description}
 
-          Reply with the new ideas that ${name} brainstormed.
+          Reply with the new options that ${name} brainstormed.
         `
       };
     },

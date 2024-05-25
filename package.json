@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@opensouls/engine": "^0.1.32",
+    "@opensouls/pipeline": "^0.1.32"
+  }
+}
