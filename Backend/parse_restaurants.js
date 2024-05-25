@@ -1,3 +1,5 @@
+
+
 const url = 'https://map-places.p.rapidapi.com/queryautocomplete/json?input=pizza%20near%20Sydney&radius=50000';
 const options = {
 	method: 'GET',
