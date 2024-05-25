@@ -2,8 +2,14 @@ import requests
 import streamlit as st
 import pytz
 from datetime import datetime
+import os
+import json
 
 id = 60763
+path_file = f"RestaurantData/{id}.json"
+if os.path.isfile(path_file) and os.path.exists(path_file):
+    exit
+
 url = "https://restaurants222.p.rapidapi.com/search"
 
 payload = {
@@ -44,3 +50,5 @@ for restaurant in json_response["results"]["data"]:
     })
 
 print(open_restaurants)
+with open(path_file, "w+") as f:
+    json.dump({"data":open_restaurants}, f)
